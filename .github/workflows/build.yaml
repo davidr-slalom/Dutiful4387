@@ -10,6 +10,7 @@ jobs:
         working-directory: ./scripts
     outputs:
       bins: ${{ steps.number.outputs.bins }}
+      shards: ${{ steps.number.outputs.shards }}
       matrix: ${{ steps.matrix.outputs.matrix }}
 
     steps:
@@ -29,11 +30,13 @@ jobs:
 
       - name: Run TypeScript file
         id: number
-        run: echo "bins=toJson($(npx ts-node get_tests.ts))" >> "$GITHUB_OUTPUT"
+        run: |
+          result=$(npx ts-node get_tests.ts)
+          echo "shards=[$result | jq length]" >> "$GITHUB_OUTPUT"
 
       - name: Generate matrix
         id: matrix
-        run: echo "matrix=[$(seq 1 ${{ steps.number.outputs.bins.length }} | sed 's/.*/"&"/' | paste -sd ',' -)]" >> "$GITHUB_OUTPUT"
+        run: echo "matrix=[$(seq 1 ${{ steps.number.outputs.shards }} | sed 's/.*/"&"/' | paste -sd ',' -)]" >> "$GITHUB_OUTPUT"
 
       # - name: Print Matrix
       #   run: echo "${{ steps.matrix.outputs.matrix }}"
