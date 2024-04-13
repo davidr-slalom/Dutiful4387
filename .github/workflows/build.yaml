@@ -44,5 +44,11 @@ jobs:
       matrix:
         run: ${{fromJson(needs.generate_number.outputs.matrix)}}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: npm install
+        run: npm i
+
       - name: Print Hello World
         run: npx ts-node output.ts ${{ matrix.run }}
