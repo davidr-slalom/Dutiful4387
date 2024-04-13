@@ -32,7 +32,8 @@ jobs:
         id: number
         run: |
           result=$(npx ts-node get_tests.ts)
-          echo "shards=[$result | jq length]" >> "$GITHUB_OUTPUT"
+          count=$(echo $result | jq length)
+          echo "shards=$count >> "$GITHUB_OUTPUT"
 
       - name: Generate matrix
         id: matrix
