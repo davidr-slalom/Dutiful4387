@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./github/workflows
+        working-directory: ./.github/workflows
 
     steps:
       - name: Checkout repository
