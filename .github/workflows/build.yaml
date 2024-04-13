@@ -1,0 +1,37 @@
+name: Run TypeScript and Parallel Tasks
+
+on: [push, pull_request]
+
+jobs:
+  generate_number:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install TypeScript
+        run: npm install -g typescript
+
+      - name: Run TypeScript file
+        id: number
+        run: echo "::set-output name=times::$(npx ts-node ./get_tests.ts)"
+
+      - name: Generate matrix
+        id: matrix
+        run: echo "::set-output name=matrix::$(seq 1 ${{ steps.number.outputs.times }} | jq -R . | jq -s .)"
+
+  print_hello_world:
+    needs: generate_number
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        run: ${{fromJson(needs.generate_number.outputs.matrix)}}
+    steps:
+      - name: Print Hello World
+        run: npx ts-node ./output.ts ${{ matrix.run }}
