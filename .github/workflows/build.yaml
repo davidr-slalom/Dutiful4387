@@ -25,11 +25,11 @@ jobs:
 
       - name: Run TypeScript file
         id: number
-        run: echo "::set-output name=times::$(npx ts-node get_tests.ts)"
+        run: echo "::set-output name=bins::$(npx ts-node get_tests.ts)"
 
       - name: Generate matrix
         id: matrix
-        run: echo "matrix=[$(seq 1 ${{ steps.number.outputs.times }} | sed 's/.*/"&"/' | paste -sd ',' -)]" >> "$GITHUB_OUTPUT"
+        run: echo "matrix=[$(seq 1 ${{ steps.number.outputs.bins.length }} | sed 's/.*/"&"/' | paste -sd ',' -)]" >> "$GITHUB_OUTPUT"
 
       # - name: Print Matrix
       #   run: echo "${{ steps.matrix.outputs.matrix }}"
