@@ -18,6 +18,9 @@ jobs:
       - name: Install TypeScript
         run: npm install -g typescript
 
+      - name: directory
+        run: ls
+
       - name: Run TypeScript file
         id: number
         run: echo "::set-output name=times::$(npx ts-node get_tests.ts)"
