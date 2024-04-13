@@ -9,6 +9,7 @@ jobs:
       run:
         working-directory: ./scripts
     outputs:
+      bins: ${{ steps.number.outputs.bins }}
       matrix: ${{ steps.matrix.outputs.matrix }}
 
     steps:
@@ -25,7 +26,7 @@ jobs:
 
       - name: Run TypeScript file
         id: number
-        run: echo "::set-output name=bins::$(npx ts-node get_tests.ts)"
+        run: echo "bins = $(npx ts-node get_tests.ts)" >> "$GITHUB_OUTPUT"
 
       - name: Generate matrix
         id: matrix
