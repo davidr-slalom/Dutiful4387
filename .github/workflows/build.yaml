@@ -18,11 +18,8 @@ jobs:
       - name: Install TypeScript
         run: npm install -g typescript
 
-      - run: cd ${{ github.action_path }}
-      - name: directory
-        run: ls
-
       - name: Run TypeScript file
+        working-directory: .github/workflows
         id: number
         run: echo "::set-output name=times::$(npx ts-node get_tests.ts)"
 
