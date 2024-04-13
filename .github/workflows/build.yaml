@@ -26,7 +26,7 @@ jobs:
 
       - name: Run TypeScript file
         id: number
-        run: echo "bins = $(npx ts-node get_tests.ts)" >> "$GITHUB_OUTPUT"
+        run: echo "bins=$(npx ts-node get_tests.ts)" >> "$GITHUB_OUTPUT"
 
       - name: Generate matrix
         id: matrix
