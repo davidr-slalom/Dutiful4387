@@ -89,4 +89,5 @@ const randomSubset = getRandomSubset();
 
 // console.log(binPackTests(randomSubset, maximumDuration));
 const bins = binPackTests(randomSubset, maximumDuration);
-console.log(bins);
+let json = JSON.stringify(bins, null, 2);
+console.log(json);
