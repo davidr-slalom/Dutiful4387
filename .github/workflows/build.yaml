@@ -29,6 +29,9 @@ jobs:
         id: matrix
         run: echo "::set-output name=matrix::$(seq 1 ${{ steps.number.outputs.times }} | jq -R . | jq -s .)"
 
+      - name: Print Matrix
+        run: echo "${{ steps.matrix.outputs.matrix }}"
+
   print_hello_world:
     needs: generate_number
     runs-on: ubuntu-latest
