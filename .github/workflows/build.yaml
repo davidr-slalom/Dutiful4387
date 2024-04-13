@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Install TypeScript
-        run: npm install -g typescript
+      - name: npm install
+        run: npm i
 
       - name: Run TypeScript file
         id: number
