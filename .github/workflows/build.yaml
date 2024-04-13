@@ -5,6 +5,9 @@ on: [push, pull_request]
 jobs:
   generate_number:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./github/workflows
 
     steps:
       - name: Checkout repository
@@ -19,7 +22,6 @@ jobs:
         run: npm install -g typescript
 
       - name: Run TypeScript file
-        working-directory: .github/workflows
         id: number
         run: echo "::set-output name=times::$(npx ts-node get_tests.ts)"
 
