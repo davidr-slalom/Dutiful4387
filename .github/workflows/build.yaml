@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate matrix
         id: matrix
-        run: echo "::set-output name=matrix::[$(seq 1 ${{ steps.number.outputs.times }} | paste -sd ',' -)]"
+        run: echo "::set-output name=matrix::[$(seq 1 ${{ steps.number.outputs.times }} | sed 's/.*/"&"/' | paste -sd ',' -)]"
 
       - name: Print Matrix
         run: echo "${{ steps.matrix.outputs.matrix }}"
