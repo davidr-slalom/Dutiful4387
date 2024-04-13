@@ -20,7 +20,7 @@ jobs:
 
       - name: Run TypeScript file
         id: number
-        run: echo "::set-output name=times::$(npx ts-node ./get_tests.ts)"
+        run: echo "::set-output name=times::$(npx ts-node get_tests.ts)"
 
       - name: Generate matrix
         id: matrix
@@ -34,4 +34,4 @@ jobs:
         run: ${{fromJson(needs.generate_number.outputs.matrix)}}
     steps:
       - name: Print Hello World
-        run: npx ts-node ./output.ts ${{ matrix.run }}
+        run: npx ts-node output.ts ${{ matrix.run }}
