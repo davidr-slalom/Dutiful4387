@@ -18,6 +18,7 @@ jobs:
       - name: Install TypeScript
         run: npm install -g typescript
 
+      - run: cd ${{ github.action_path }}
       - name: directory
         run: ls
 
