@@ -37,6 +37,9 @@ jobs:
   print_hello_world:
     needs: generate_number
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./.github/workflows
     strategy:
       matrix:
         run: ${{fromJson(needs.generate_number.outputs.matrix)}}
