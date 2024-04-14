@@ -60,10 +60,6 @@ jobs:
       - name: npm install
         run: npm i
 
-      - name: Print Hello World
-        run: |
-          npx ts-node output.ts ${{ matrix.run }}
-
       - name: Download JSON artifact
         uses: actions/download-artifact@v2
         with:
