@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tests-distribution-artifact
-          path: ./tests_distribution.json
+          path: ./scripts/tests_distribution.json
 
       - name: Generate matrix
         id: matrix
