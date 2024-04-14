@@ -71,4 +71,4 @@ jobs:
 
       - name: Print tests
         run: |
-          cat ./tests_distribution.json
+          cat ../tests_distribution.json
