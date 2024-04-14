@@ -63,3 +63,12 @@ jobs:
       - name: Print Hello World
         run: |
           npx ts-node output.ts ${{ matrix.run }}
+
+      - name: Download JSON artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tests-distribution-artifact
+
+      - name: Print tests
+        run: |
+          cat ./tests_distribution.json
