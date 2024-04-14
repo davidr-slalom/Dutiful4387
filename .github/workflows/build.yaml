@@ -1,4 +1,4 @@
-name: Run TypeScript and Parallel Tasks
+name: Distributed Test Pipelne
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
         type: number
 
 jobs:
-  generate_number:
+  get_tests_and_binpack:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,7 +33,7 @@ jobs:
       - name: npm install
         run: npm i
 
-      - name: Run TypeScript file
+      - name: Get tests and binpack
         id: number
         run: |
           result=$(npx ts-node get_tests.ts ${{ inputs.max_testing_duration }})
@@ -46,15 +46,12 @@ jobs:
           name: tests-distribution-artifact
           path: ./scripts/tests_distribution.json
 
-      - name: Generate matrix
+      - name: Generate matrix for parallel test runs
         id: matrix
         run: echo "matrix=[$(seq 1 ${{ steps.number.outputs.shards }} | sed 's/.*/"&"/' | paste -sd ',' -)]" >> "$GITHUB_OUTPUT"
 
-      # - name: Print Matrix
-      #   run: echo "${{ steps.matrix.outputs.matrix }}"
-
-  print_hello_world:
-    needs: generate_number
+  parallel_test_runner:
+    needs: get_tests_and_binpack
     runs-on: ubuntu-latest
     defaults:
       run:
