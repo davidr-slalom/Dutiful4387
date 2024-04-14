@@ -61,4 +61,4 @@ jobs:
       - name: Print Hello World
         run: |
           npx ts-node output.ts ${{ matrix.run }}
-          echo ${{needs.generate_number.outputs.tests}}
+          echo ${{fromJson(needs.generate_number.outputs.tests)}}
