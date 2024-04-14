@@ -94,7 +94,6 @@ let json = JSON.stringify(bins, null, 2);
 // Write JSON data to a file
 try {
   fs.writeFileSync("tests_distribution.json", json);
-  console.log("JSON data is saved.");
 } catch (err) {
   console.log("An error occurred while writing JSON Object to File.");
   console.error(err);
