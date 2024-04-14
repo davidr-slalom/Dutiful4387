@@ -9,7 +9,6 @@ jobs:
       run:
         working-directory: ./scripts
     outputs:
-      tests: ${{ steps.number.outputs.tests }}
       shards: ${{ steps.number.outputs.shards }}
       matrix: ${{ steps.matrix.outputs.matrix }}
 
@@ -31,9 +30,6 @@ jobs:
           result=$(npx ts-node get_tests.ts)
           count=$(echo $result | jq length)
           echo "shards=$count" >> "$GITHUB_OUTPUT"
-          echo "tests<<EOFMARKER" >> $GITHUB_OUTPUT
-          echo "$result" >> $GITHUB_OUTPUT
-          echo "EOFMARKER" >> $GITHUB_OUTPUT
 
       - name: Upload tests distribution JSON artifact
         uses: actions/upload-artifact@v2
@@ -67,4 +63,3 @@ jobs:
       - name: Print Hello World
         run: |
           npx ts-node output.ts ${{ matrix.run }}
-          echo ${{fromJson(needs.generate_number.outputs.tests)}}
