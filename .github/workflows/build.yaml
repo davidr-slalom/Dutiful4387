@@ -35,6 +35,12 @@ jobs:
           echo "$result" >> $GITHUB_OUTPUT
           echo "EOFMARKER" >> $GITHUB_OUTPUT
 
+      - name: Upload tests distribution JSON artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: tests-distribution-artifact
+          path: ./tests_distribution.json
+
       - name: Generate matrix
         id: matrix
         run: echo "matrix=[$(seq 1 ${{ steps.number.outputs.shards }} | sed 's/.*/"&"/' | paste -sd ',' -)]" >> "$GITHUB_OUTPUT"
