@@ -69,6 +69,5 @@ jobs:
         with:
           name: tests-distribution-artifact
 
-      - name: Print tests
-        run: |
-          cat ../tests_distribution.json
+      - name: Run shards tests
+        run: npx ts-node run_shards_tests.ts ${{ matrix.run }} ../tests_distribution.json
