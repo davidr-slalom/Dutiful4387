@@ -1,5 +1,10 @@
 import fs from "fs";
 
+// Runs a collection of tests
+// Inputs:
+//    int      - which collection to run
+//    string   - filepath to test definition
+
 const shardNumber: number = parseInt(process.argv[2]);
 
 const filePath = process.argv[3] ?? "tests_distribution.json";

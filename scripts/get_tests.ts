@@ -1,17 +1,5 @@
 import fs from "fs";
-
-/**
- * Represents a test with a name and a duration.
- */
-class Test {
-  test: string;
-  duration: number;
-
-  constructor(test: string, duration: number) {
-    this.test = test;
-    this.duration = duration;
-  }
-}
+import { Test } from "./Test";
 
 /**
  * Returns a random number between 1 and 20.
@@ -23,11 +11,11 @@ function getRandomNumber(): number {
 }
 
 /**
+ * Mock call to test selection service
  * Returns a random subset of tests from the `tests.json` file.
- *
  * @returns An array of tests.
  */
-function getRandomSubset(): Test[] {
+function mockGetTestsSelection(): Test[] {
   const tests = JSON.parse(fs.readFileSync("tests.json", "utf-8"));
   const subsetSize = getRandomNumber();
   const subset: Test[] = [];
@@ -79,15 +67,9 @@ const maximumDuration = process.argv[2] ? parseInt(process.argv[2]) : 20;
 
 // Get a random subset of tests
 // Replace with call to test selection api
-const randomSubset = getRandomSubset();
+const randomSubset = mockGetTestsSelection();
 
-// console.log(randomSubset);
-
-// binPackTests(randomSubset, maximumDuration).forEach((bin, i) => {
-//   console.log(`Bin ${i + 1}: ${bin.map((test) => test.test).join(", ")}`);
-// });
-
-// console.log(binPackTests(randomSubset, maximumDuration));
+// Distribute tests into bins for optimal test running
 const bins = binPackTests(randomSubset, maximumDuration);
 let json = JSON.stringify(bins, null, 2);
 

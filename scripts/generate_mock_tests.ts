@@ -1,9 +1,8 @@
 import { writeFileSync } from "fs";
+import { Test } from "./Test";
 
-interface Test {
-  test: string;
-  duration: number;
-}
+// Helper class that generates a json file to mock the test selection service
+// Output tests.json
 
 let tests: Test[] = [];
 
