@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { Test } from "./Test";
+import { Test } from "./interfaces/Test";
 
 // Helper class that generates a json file to mock the test selection service
 // Output tests.json

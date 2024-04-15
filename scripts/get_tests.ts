@@ -1,5 +1,6 @@
 import fs from "fs";
-import { Test } from "./Test";
+import { Test } from "./interfaces/Test";
+import { Bin } from "./interfaces/Bin";
 
 /**
  * Returns a random number between 1 and 20.
@@ -11,8 +12,9 @@ function getRandomNumber(): number {
 }
 
 /**
- * Mock call to test selection service
+ * Mock call to test selection service.
  * Returns a random subset of tests from the `tests.json` file.
+ *
  * @returns An array of tests.
  */
 function mockGetTestsSelection(): Test[] {
@@ -33,31 +35,39 @@ function mockGetTestsSelection(): Test[] {
 }
 
 /**
- * Packs tests into bins based on their duration.
- * Each bin contains tests whose total duration does not exceed a given limit.
+ * Distributes tests into bins for optimal test running.
+ * The algorithm used is the First Fit Decreasing (FFD) algorithm.
  *
- * @param tests - An array of tests to be packed into bins.
- * @param maximumDuration - The maximum duration allowed for each bin.
- * @returns An array of bins, where each bin is an array of tests.
+ * @param tests - An array of tests to be distributed.
+ * @param maxDuration - The maximum duration allowed for each bin.
+ * @returns An array of bins containing the distributed tests.
  */
-function binPackTests(tests: Test[], maximumDuration: number): Test[][] {
-  const bins: Test[][] = [];
-  let currentBin: Test[] = [];
-  let currentBinDuration = 0;
+function binPackTests(tests: Test[], maxDuration: number): Bin[] {
+  // Sort tests in decreasing order of duration
+  tests.sort((a, b) => b.duration - a.duration);
 
-  for (const test of tests) {
-    if (currentBinDuration + test.duration <= maximumDuration) {
-      currentBin.push(test);
-      currentBinDuration += test.duration;
-    } else {
-      bins.push(currentBin);
-      currentBin = [test];
-      currentBinDuration = test.duration;
+  let bins: Bin[] = [];
+
+  // Place tests one by one
+  for (let i = 0; i < tests.length; i++) {
+    // Find first bin that can accommodate tests[i]
+    let j;
+    for (j = 0; j < bins.length; j++) {
+      if (bins[j].remaining >= tests[i].duration) {
+        bins[j].tests.push(tests[i]);
+        bins[j].remaining -= tests[i].duration;
+        break;
+      }
     }
-  }
 
-  if (currentBin.length > 0) {
-    bins.push(currentBin);
+    // If no bin could accommodate tests[i], create a new bin
+    if (j == bins.length) {
+      let bin: Bin = {
+        remaining: maxDuration - tests[i].duration,
+        tests: [tests[i]],
+      };
+      bins.push(bin);
+    }
   }
 
   return bins;
@@ -71,7 +81,13 @@ const randomSubset = mockGetTestsSelection();
 
 // Distribute tests into bins for optimal test running
 const bins = binPackTests(randomSubset, maximumDuration);
-let json = JSON.stringify(bins, null, 2);
+
+// Convert bins to array of tests which is expected downstream
+const testsFromBins: Test[][] = [];
+for (const bin of bins) {
+  testsFromBins.push(bin.tests);
+}
+let json = JSON.stringify(testsFromBins, null, 2);
 
 // Write JSON data to a file
 try {
