@@ -58,7 +58,7 @@ jobs:
         working-directory: ./scripts
     strategy:
       matrix:
-        run: ${{fromJson(needs.generate_number.outputs.matrix)}}
+        run: ${{fromJson(needs.get_tests_and_binpack.outputs.matrix)}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
